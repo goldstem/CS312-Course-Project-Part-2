@@ -66,3 +66,11 @@ resource "local_file" "mc_key_file" {
 	content		= tls_private_key.minecraft_key.private_key_pem
 	filename	= "${path.module}/minecraft-key.pem"
 }
+
+output "instance_id" {
+	value = aws_instance.minecraft_server.id
+}
+
+output "public_ip" {
+	value = aws_instance.minecraft_server.public_ip
+}
