@@ -20,3 +20,24 @@
       url: https://piston-data.mojang.com/v1/objects/97ccd4c0ed3f81bbb7bfacddd1090b0c56f9bc51/server.jar
       dest: /minecraft/server.jar
       mode: "774"
+
+  - name: Accept EULA
+    ansible.builtin.copy:
+      dest: /minecraft/eula.txt
+      content: "eula=true\n"
+
+  - name: Create System Service for Minecraft
+    ansible.builtin.copy:
+      src: minecraft.service
+      dest: /etc/systemd/system/minecraft.service
+      mode: "774"
+
+  - name: Reload systemd daemon
+    ansible.builtin.systemd:
+      daemon_reload: yes
+
+  - name: Start and Enable Minecraft Service
+    ansible.builtin.systemd:
+      name: minecraft
+      state: started
+      enabled: yes
