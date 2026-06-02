@@ -1,0 +1,22 @@
+---
+- name: Minecraft Server
+  hosts: minecraft
+  become: yes
+
+  tasks:
+  - name: Install Java
+    ansible.builtin.apt:
+      name: openjdk-25-jdk-headless
+      state: present
+      update_cache: yes
+
+  - name: Create Minecraft Directory
+    ansible.builtin.file:
+      path: /minecraft
+      state: directory
+
+  - name: Download Minecraft Server
+    ansible.builtin.get_url:
+      url: https://piston-data.mojang.com/v1/objects/97ccd4c0ed3f81bbb7bfacddd1090b0c56f9bc51/server.jar
+      dest: /minecraft/server.jar
+      mode: "774"
